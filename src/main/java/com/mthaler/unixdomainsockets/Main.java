@@ -6,6 +6,7 @@ import java.net.UnixDomainSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -14,6 +15,10 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         Path socket = Paths.get("/tmp/uds.socket");
+        if (Files.exists(socket)) {
+            System.out.println("Socket already exists, delete it before running the application!");
+            System.exit(0);
+        }
         UnixDomainSocketAddress address = UnixDomainSocketAddress.of(socket);
 
         ServerSocketChannel serverChannel = ServerSocketChannel.open(StandardProtocolFamily.UNIX);
@@ -49,5 +54,10 @@ public class Main {
         while (buffer.hasRemaining()) {
             clientChannel.write(buffer);
         }
+
+        System.out.println("Press return to stop server");
+        System.in.read();
+        serverThread.interrupt();
+        Files.delete(socket);
     }
 }
