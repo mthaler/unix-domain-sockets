@@ -1,6 +1,5 @@
 plugins {
-    id 'java-library'
-    id 'org.jetbrains.kotlin.jvm' version '1.4.32'
+    id 'java'
 }
 
 group 'com.mthaler'
@@ -9,17 +8,10 @@ version '0.1'
 repositories {
     mavenCentral()
 }
-
-test {
-    useJUnitPlatform()
-}
-
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions {
-        jvmTarget = "1.16"
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src']
+        }
     }
-}
-
-dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib'
 }
