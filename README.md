@@ -1,2 +1,2 @@
 # unix-domain-sockets
-Kotlin UNIX domain socket example
+Java UNIX domain socket example
